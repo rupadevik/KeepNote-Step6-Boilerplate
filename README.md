@@ -2,7 +2,7 @@
 
 ### Assignment Step Description
 
-In this case study Keep Note Step 6, we will implement JWT (JSON Web Token) on top of Keep Note Step 5 Assignment. JSON Web Token (JWT) is an open standard (RFC 7519) that 
+In this case study Keep Note Step 6, we will implement JWT (JSON Web Token) authentication on top of Keep Note Step 5 Assignment. JSON Web Token (JWT) is an open standard (RFC 7519) that 
 defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is
 digitally signed.
 
@@ -13,6 +13,13 @@ In this step, we will create this application in five parts
         3. NoteService
         4. CategoryService
         5. ReminderService
+
+Filter using JWT should be implemented for all except the AuthenticationService. 
+
+Containerization of all the microservices using Docker needs to be implemented as part of this assignment. For each services, Dockerfile has to be updated with the required instructions.
+All the images to be run using the docker-compose.
+
+Swagger needs to be implemented in all the services.
 
 ### Steps to be followed:
 
