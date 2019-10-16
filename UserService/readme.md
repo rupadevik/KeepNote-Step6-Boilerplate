@@ -4,6 +4,8 @@
 
 In this case study KeepNote Step 6 - UserService, We will write main class for spring boot Application, model class, repository class, service class and interface, logging aspect.
 
+Dockerfile has to be updated with the necessary instructions to create the image for the UserService
+
 ### Steps to be followed:
 
     Step 1: Add relevant dependencies in pom.xml file. 

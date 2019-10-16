@@ -4,6 +4,9 @@
 
 In this case study KeepNote Step 6 - ReminderService, We will write main class for spring boot Application, model class, repository class, service class and interface, logging aspect.
 
+Dockerfile has to be updated with the necessary instructions to create the image for the ReminderService
+
+
 ### Steps to be followed:
 
     Step 1: Add relevant dependencies in pom.xml file. 
