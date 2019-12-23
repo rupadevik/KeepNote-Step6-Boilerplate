@@ -1,10 +1,12 @@
 package com.stackroute.keepnote;
 
+import javax.servlet.Filter;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-
+import com.stackroute.keepnote.jwtfilter.JwtFilter;
 /*
  * The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration 
  * and @ComponentScan with their default attributes
@@ -23,8 +25,13 @@ public class CategoryServiceApplication {
 	 */
 	@Bean
 	public FilterRegistrationBean jwtFilter() {
-		return null;
+		
+		FilterRegistrationBean<Filter> bean = new FilterRegistrationBean<Filter>();
+		bean.setFilter(new JwtFilter("SecretKeyToGenJWTs"));
+		return bean;
 	}
+		
+		
 	
 	
 	
