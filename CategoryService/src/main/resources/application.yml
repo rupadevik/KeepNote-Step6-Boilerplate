@@ -4,10 +4,11 @@ spring:
  #     authentication-database:
       username: root
       password: root
-      database: tets
+      database: test
       port: 27017
       host: localhost
   application:
     name: category-service
 server:
   port: 8083
+  
