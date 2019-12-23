@@ -1,11 +1,11 @@
 spring:
   data:
     mongodb:
-      username: ${MONGO_USERNAME}
-      password: ${MONGO_PASSWORD}
-      database: ${MONGO_DATABASE}
-      port: ${MONGO_PORT}
-      host: ${MONGO_HOST}
+      username: root
+      password: root
+      database: test
+      port: 27017
+      host: localhost
   application:
     name: note-service
 server:
