@@ -6,13 +6,13 @@ services:
   - 'mysql:5.5'
   - 'mongo:3.4-jessie'
 variables:
-  MYSQL_DATABASE: "cricapp"
+  MYSQL_DATABASE: "test"
   MYSQL_HOST: "localhost"
-  MYSQL_URL: "jdbc:mysql://mysql/cricapp"
+  MYSQL_URL: "jdbc:mysql://mysql/test"
   MYSQL_USER: "root"
   MYSQL_PASSWORD: "admin"
   MYSQL_ROOT_PASSWORD: "root"
-  MONGO_DATABASE: "cricApp"
+  MONGO_DATABASE: "test"
   MONGO_URL: "mongodb://mongo:27017"
 cache:
  paths:
@@ -26,8 +26,7 @@ maven-test:
 maven-build:
   stage: build
   script: "mvn package"
-  tags:
-   - ibm-runner
+  
   artifacts:
     paths:
       - target/*.jar
