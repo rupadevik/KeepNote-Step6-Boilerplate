@@ -21,8 +21,7 @@ cache:
 maven-test:
   stage: test
   script: "mvn test"
-  tags:
-   - ibm-runner
+
 maven-build:
   stage: build
   script: "mvn package"
