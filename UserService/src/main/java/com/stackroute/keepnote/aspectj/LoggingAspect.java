@@ -24,22 +24,22 @@ public class LoggingAspect {
 	
 	 @Before("execution(* com.stackroute.keepnote.controller.UserController.*(..))")
 	    public void logBefore(JoinPoint point) {
-	        log.info(point.getSignature().getName() + " before called...");
+	        //log.info(point.getSignature().getName() + " before called...");
 	    }
 	 
 	 @After("execution(* com.stackroute.keepnote.controller.UserController.*(..))")
 	    public void logAfter(JoinPoint point) {
-	        log.info(point.getSignature().getName() + " after called...");
+	       // log.info(point.getSignature().getName() + " after called...");
 	    }
 	 
 	 @AfterReturning("execution(* com.stackroute.keepnote.controller.UserController.*(..))")
 	    public void logAfterReturning(JoinPoint point) {
-	        log.info(point.getSignature().getName() + " after returning called...");
+	       // log.info(point.getSignature().getName() + " after returning called...");
 	    }
 	 
 	 @AfterThrowing("execution(* com.stackroute.keepnote.controller.UserController.*(..))")
 	    public void afterThrowing(JoinPoint point) {
-	        log.info(point.getSignature().getName() + " afterThrowing called...");
+	       // log.info(point.getSignature().getName() + " afterThrowing called...");
 	      
 	    }
 }
