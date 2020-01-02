@@ -2,6 +2,9 @@ package com.stackroute.keepnote.jwtfilter;
 
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.google.common.net.HttpHeaders;
+import com.mongodb.util.JSONParseException;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -12,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
@@ -40,29 +44,30 @@ public class JwtFilter extends GenericFilterBean {
 	 */
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
+    	
+    	HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, request.getHeader(HttpHeaders.ORIGIN));
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, "*");
+        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "POST,GET,PUT,DELETE");
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if ("OPTIONS".equals(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
+        } else {
+            if (null == authHeader || !authHeader.startsWith("Bearer ")) {
+                throw new ServletException("Missing or Invalid Authorization header");
+            }
+            String token = authHeader.split(" ")[1].trim();
+            try {
+                final Claims claims = Jwts.parser().setSigningKey("secret").parseClaimsJws(token).getBody();
+                request.setAttribute("claims", claims);
+                filterChain.doFilter(request, response);
+            } catch (JSONParseException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
-		HttpServletRequest req = (HttpServletRequest) request;
-
-		String authHeader = req.getHeader(AUTHORIZATION);
-
-		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			throw new ServletException("Not a valid authentication authHeader");
-		}
-
-		String compactJws = authHeader.substring(7);
-
-		try {
-			Claims token = Jwts.parser().setSigningKey(secret).parseClaimsJws(compactJws).getBody();
-			request.setAttribute("token", token);
-		} catch (SignatureException ex) {
-			throw new ServletException("Invalid Token");
-		} catch (MalformedJwtException ex) {
-			throw new ServletException("JWT is malformed");
-		}
-
-		chain.doFilter(request, response);
-
-	}
-}
+    }

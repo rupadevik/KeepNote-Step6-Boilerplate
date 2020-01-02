@@ -1,10 +1,13 @@
 package com.stackroute.keepnote.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +30,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * is equivalent to using @Controller and @ResposeBody annotation
  */
 @RestController
+@CrossOrigin(origins = {"*"})
 public class UserAuthenticationController {
 
 	/*
@@ -82,37 +86,34 @@ public class UserAuthenticationController {
 	 * POST method
 	 */
 	@PostMapping("/api/v1/auth/login")
-	public ResponseEntity<String> getUser(@RequestBody User user) {
-		User returnuser = null;
+	public ResponseEntity<?> getUser(@RequestBody User user) {
+		String jwToken = "";
+		Map<String, String> map = new HashMap<>();
 		try {
-
-			returnuser = this.authenticationService.findByUserIdAndPassword(user.getUserId(), user.getUserPassword());
-			if (returnuser != null) {
-				
-				String token;
-				try {
-					token = this.getToken(user.getUserId(), user.getUserPassword());
-					return new ResponseEntity<String>(token, HttpStatus.OK);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
-				}
-				
-			} else {
-				return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+			User userVo = authenticationService.findByUserIdAndPassword(user.getUserId(), user.getUserPassword());
+			if (null != userVo) {
+				jwToken = getToken(user.getUserId(), user.getUserPassword());
+				map.clear();
+				map.put("message", "User Successfully logged in");
+				map.put("token", jwToken);
+				return new ResponseEntity<>(map, HttpStatus.OK);
 			}
-		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("LogIn Failed", HttpStatus.UNAUTHORIZED);
+		} catch (Exception e) {
+			map.clear();
+			map.put("message", e.getMessage());
+			map.put("token", null);
+			return new ResponseEntity<String>("User not found", HttpStatus.UNAUTHORIZED);
 		}
-
-	}
+			
+		}
+		
+	
+	
 
 	// Generate JWT token
 	public String getToken(String username, String password) throws Exception {
-		String SECRET = "SecretKeyToGenJWTs";
+		String SECRET = "secret";
 		long EXPIRATION_TIME = 864_000_000; // 10 days
 		Claims claims = Jwts.claims().setSubject(username);
 		claims.put("UserId", username + "");

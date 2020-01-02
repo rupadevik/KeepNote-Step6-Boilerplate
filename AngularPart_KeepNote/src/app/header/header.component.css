@@ -1,0 +1,12 @@
+.keep-c-toggle-view {
+	width: 100%;
+	margin-left: 75%;
+	cursor: pointer;
+}
+.btn-group{
+	margin-left: 10%;
+	background: rgb(240, 115, 136)! important;
+}
+.navbar{
+	background:rgb(27, 177, 236);
+}
