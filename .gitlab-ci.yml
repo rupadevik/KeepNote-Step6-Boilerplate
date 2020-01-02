@@ -10,7 +10,7 @@ variables:
   MYSQL_HOST: "localhost"
   MYSQL_URL: "jdbc:mysql://mysql/test"
   MYSQL_USER: "root"
-  MYSQL_PASSWORD: "admin"
+  MYSQL_PASSWORD: "root"
   MYSQL_ROOT_PASSWORD: "root"
   MONGO_DATABASE: "test"
   MONGO_URL: "mongodb://mongo:27017"
