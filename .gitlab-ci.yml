@@ -1,10 +1,33 @@
-image: maven:3.3.9-jdk-8
-maven-build:
-  script: "mvn package -U"
-  stage: build
-maven-test:
-  script: "mvn test"
-  stage: test
+image: 'maven:3-jdk-8'
 stages:
   - test
   - build
+services:
+  - 'mysql:5.5'
+  - 'mongo:3.4-jessie'
+variables:
+  MYSQL_DATABASE: "cricapp"
+  MYSQL_HOST: "localhost"
+  MYSQL_URL: "jdbc:mysql://mysql/cricapp"
+  MYSQL_USER: "root"
+  MYSQL_PASSWORD: "admin"
+  MYSQL_ROOT_PASSWORD: "root"
+  MONGO_DATABASE: "cricApp"
+  MONGO_URL: "mongodb://mongo:27017"
+cache:
+ paths:
+  - .m2/repository
+  - target
+maven-test:
+  stage: test
+  script: "mvn test"
+  tags:
+   - ibm-runner
+maven-build:
+  stage: build
+  script: "mvn package"
+  tags:
+   - ibm-runner
+  artifacts:
+    paths:
+      - target/*.jar
